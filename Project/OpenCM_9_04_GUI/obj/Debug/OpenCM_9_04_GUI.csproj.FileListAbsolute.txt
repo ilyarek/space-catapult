@@ -1,0 +1,22 @@
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe.config
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.pdb
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.AssemblyReference.cache
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.SuggestedBindingRedirects.cache
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Form1.resources
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Properties.Resources.resources
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResource.cache
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
+D:\works\5 semester\MKA\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe.config
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.pdb
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.AssemblyReference.cache
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Form1.resources
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Properties.Resources.resources
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResource.cache
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
+C:\Users\rekal\Desktop\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
