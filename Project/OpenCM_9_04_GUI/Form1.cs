@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.Management;
+using System.Net.NetworkInformation;
 
 namespace OpenCM_9_04_GUI
 {
@@ -22,7 +23,6 @@ namespace OpenCM_9_04_GUI
         private void Form1_Load(object sender, EventArgs e)
         {
             string[] portnames = SerialPort.GetPortNames();
-
             comboBox1.Items.AddRange(portnames);
         }
 
@@ -40,15 +40,10 @@ namespace OpenCM_9_04_GUI
                 button1.Enabled = false;
                 button2.Enabled = true;
                 button3.Enabled = true;
-                button4.Enabled = true;
-                button5.Enabled = true;
                 button6.Enabled = true;
-                button7.Enabled = true;
                 numericUpDown1.Enabled = true;
                 numericUpDown2.Enabled = true;
                 numericUpDown3.Enabled = true;
-                numericUpDown4.Enabled = true;
-                numericUpDown5.Enabled = true;
 
                 textBox1.Text += "Port " + serialPort1.PortName.ToString() + " is open" + Environment.NewLine;
             }
@@ -70,20 +65,13 @@ namespace OpenCM_9_04_GUI
                 comboBox2.Enabled = true;
                 button2.Enabled = false;
                 button3.Enabled = false;
-                button4.Enabled = false;
-                button5.Enabled = false;
                 button6.Enabled = false;
-                button7.Enabled = false;
                 numericUpDown1.Enabled = false;
                 numericUpDown2.Enabled = false;
                 numericUpDown3.Enabled = false;
-                numericUpDown4.Enabled = false;
-                numericUpDown5.Enabled = false;
                 numericUpDown1.Value = 0;
                 numericUpDown2.Value = 0;
                 numericUpDown3.Value = 0;
-                numericUpDown4.Value = 0;
-                numericUpDown5.Value = 0;
 
                 textBox1.Text += "Port " + serialPort1.PortName.ToString() + " is closed" + Environment.NewLine;
             }
@@ -95,32 +83,28 @@ namespace OpenCM_9_04_GUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            serialPort1.WriteLine("a" + numericUpDown1.Value);
-            textBox1.Text += "Signal to Servo1: Rotate " + numericUpDown1.Value.ToString() + " degrees" + Environment.NewLine;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            serialPort1.WriteLine("b" + numericUpDown2.Value);
-            textBox1.Text += "Signal to Servo2: Rotate " + numericUpDown2.Value.ToString() + " degrees" + Environment.NewLine;
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            serialPort1.WriteLine("c" + numericUpDown3.Value);
-            textBox1.Text += "Signal to Servo3: Rotate " + numericUpDown3.Value.ToString() + " degrees" + Environment.NewLine;
+            byte[] buffer = new byte[7];
+            buffer[0] = (byte)1;
+            byte[] joint1_arr = new byte[2];
+            byte[] joint2_arr = new byte[2];
+            byte[] joint3_arr = new byte[2];
+            joint1_arr = BitConverter.GetBytes((Int16)numericUpDown1.Value);
+            joint2_arr = BitConverter.GetBytes((Int16)numericUpDown2.Value);
+            joint3_arr = BitConverter.GetBytes((Int16)numericUpDown3.Value);
+            buffer[1] = joint1_arr[0];
+            buffer[2] = joint1_arr[1];
+            buffer[3] = joint2_arr[0];
+            buffer[4] = joint2_arr[1];
+            buffer[5] = joint3_arr[0];
+            buffer[6] = joint3_arr[1];
+            serialPort1.Write(buffer, 0, buffer.Length);
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            serialPort1.WriteLine("d" + numericUpDown4.Value);
-            textBox1.Text += "Signal to Servo4: Rotate " + numericUpDown4.Value.ToString() + " degrees" + Environment.NewLine;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            serialPort1.WriteLine("e" + numericUpDown5.Value);
-            textBox1.Text += "Signal to Servo5: Rotate " + numericUpDown5.Value.ToString() + " degrees" + Environment.NewLine;
+            byte[] buffer = new byte[1];
+            buffer[0] = (byte)0;
+            serialPort1.Write(buffer, 0, buffer.Length);
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -131,9 +115,34 @@ namespace OpenCM_9_04_GUI
             }
         }
 
+        private void servo_ping(byte[] buffer)
+        {
+            for (int servo=1; servo<6; servo++)
+            {
+                if (buffer[servo] == (byte) 1)
+                {
+                    textBox1.Text += "Servo " + servo + " OK" + Environment.NewLine;
+                }
+                else
+                {
+                    textBox1.Text += "Servo " + servo + " not connected" + Environment.NewLine;
+                }
+            }
+        }
+
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            textBox1.Text += "Serial port signal: " + serialPort1.ReadLine() + Environment.NewLine;
+            byte[] buffer = new byte[serialPort1.BytesToRead];
+            serialPort1.Read(buffer, 0, buffer.Length);
+            switch(buffer[0])
+            {
+                default:
+                    textBox1.Text += "Buffer error: " + buffer[0] + Environment.NewLine;
+                    break;
+                case ((byte) 0):
+                    servo_ping(buffer);
+                    break;
+            }
         }
     }
 }
