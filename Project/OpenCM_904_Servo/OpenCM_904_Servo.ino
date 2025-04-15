@@ -4,8 +4,8 @@
 #define DEBUG_SERIAL Serial
 
 const int DXL_DIR_PIN = 22; //OpenCM9.04 EXP Board's DIR PIN. (28 for the DXL port on the OpenCM 9.04 board)
-const byte DXL_ID[5] = {1, 13, 14, 11, 15}; // Написать здесь айди мотора, который написан сбоку серво
-// снизу вверх, справа налево 1 5 14 11 15; не все серво ориентированы одинаково, проверить
+const byte DXL_ID[5] = {1, 5, 14, 11, 15}; // Написать здесь айди мотора, который написан сбоку серво
+// снизу вверх, слева направо 1 5 14 11 15; 
 const float DXL_PROTOCOL_VERSION = 1.0; // Обязательно 1.0!
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
@@ -61,16 +61,25 @@ void ping()
 
 void move(byte buffer[7])
 {
-  byte joint1_arr[2] = {buffer[1], buffer[2]};
-  byte joint2_arr[2] = {buffer[3], buffer[4]};
-  byte joint3_arr[2] = {buffer[5], buffer[6]};
+  byte rotate_arr[2] = {buffer[1], buffer[2]};
+  byte joint1_arr[2] = {buffer[3], buffer[4]};
+  byte joint2_arr[2] = {buffer[5], buffer[6]};
   
+  short rotate = *((short*)rotate_arr);
   short joint1 = *((short*)joint1_arr);
   short joint2 = *((short*)joint2_arr);
-  short joint3 = *((short*)joint3_arr);
 
-  dxl.setGoalPosition(DXL_ID[0], joint1, UNIT_RAW);
-  dxl.setGoalPosition(DXL_ID[1], joint1, UNIT_RAW);
+  dxl.setGoalPosition(DXL_ID[0], rotate, UNIT_RAW);
+
+  for (int i=1; i<3; i++)
+  {
+    dxl.setGoalPosition(DXL_ID[i], joint1, UNIT_RAW);
+  }
+
+  for (int i=3; i<5; i++)
+  {
+    dxl.setGoalPosition(DXL_ID[i], joint2, UNIT_RAW);
+  }
 }
 /** Please refer to each DYNAMIXEL eManual(http://emanual.robotis.com) for supported Operating Mode
  * Operating Mode
@@ -81,3 +90,22 @@ void move(byte buffer[7])
  *  5. OP_CURRENT                 (Current Mode in protocol2.0, Torque Mode(only MX64,MX106) in protocol1.0)
  *  6. OP_CURRENT_BASED_POSITION  (Current Based Postion Mode in protocol2.0 (except MX28, XL430))
  */
+
+ /* if(dxl.setID(present_id, new_id) == true){
+      present_id = new_id;
+      DEBUG_SERIAL.print("ID has been successfully changed to ");
+      DEBUG_SERIAL.println(new_id);
+
+      new_id = DEFAULT_DXL_ID;
+      if(dxl.setID(present_id, new_id) == true){
+        present_id = new_id;
+        DEBUG_SERIAL.print("ID has been successfully changed back to Original ID ");
+        DEBUG_SERIAL.println(new_id);
+      }else{
+        DEBUG_SERIAL.print("Failed to change ID to ");
+        DEBUG_SERIAL.println(new_id);
+      }
+    }else{
+      DEBUG_SERIAL.print("Failed to change ID to ");
+      DEBUG_SERIAL.println(new_id);
+    } */

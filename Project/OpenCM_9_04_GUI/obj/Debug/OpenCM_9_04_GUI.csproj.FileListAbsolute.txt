@@ -30,3 +30,13 @@ D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResour
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
+F:\Файлы\works\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe.config
+F:\Файлы\works\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe
+F:\Файлы\works\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.pdb
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.AssemblyReference.cache
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Form1.resources
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Properties.Resources.resources
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResource.cache
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
+F:\Файлы\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
