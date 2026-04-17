@@ -4,8 +4,8 @@
 #define DEBUG_SERIAL Serial
 
 const int DXL_DIR_PIN = 22; //OpenCM9.04 EXP Board's DIR PIN. (28 for the DXL port on the OpenCM 9.04 board)
-const byte DXL_ID[5] = {1, 5, 14, 11, 15}; // Написать здесь айди мотора, который написан сбоку серво
-// снизу вверх, слева направо 1 5 14 11 15; 
+const byte DXL_ID[7] = {18, 5, 14, 11, 15, 2, 3}; // Написать здесь айди мотора, который написан сбоку серво
+// снизу вверх, слева направо 1 5 14 11 15 ? ?; 
 const float DXL_PROTOCOL_VERSION = 1.0; // Обязательно 1.0!
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
@@ -21,7 +21,7 @@ void setup() {
   dxl.begin(1000000);
   dxl.setPortProtocolVersion(DXL_PROTOCOL_VERSION);
 
-  for (int i=0; i<5; i++)
+  for (int i=0; i<7; i++)
   {
     dxl.torqueOff(DXL_ID[i]);
     dxl.setOperatingMode(DXL_ID[i], OP_POSITION);
@@ -33,8 +33,8 @@ void setup() {
 void loop() {
   if (DEBUG_SERIAL.available() > 0)
   {
-    byte buffer[7];
-    DEBUG_SERIAL.readBytes(buffer, 7);
+    byte buffer[9];
+    DEBUG_SERIAL.readBytes(buffer, 9);
     switch(buffer[0])
     {
       case ((byte) 0):
@@ -43,6 +43,9 @@ void loop() {
       case ((byte) 1):
         move(buffer);
         break;
+      case ((byte) 2):
+        initial_move();
+        break;
     }
     DEBUG_SERIAL.flush();
   }
@@ -50,24 +53,26 @@ void loop() {
 
 void ping()
 {
-  byte buffer[6];
+  byte buffer[8];
   buffer[0] = (byte) 0;
-  for (int i=1; i<6; i++)
+  for (int i=1; i<8; i++)
   {
     buffer[i] = (byte) dxl.ping(DXL_ID[i-1]);
   }
-  DEBUG_SERIAL.write(buffer, 6);
+  DEBUG_SERIAL.write(buffer, 8);
 }
 
-void move(byte buffer[7])
+void move(byte buffer[9])
 {
   byte rotate_arr[2] = {buffer[1], buffer[2]};
   byte joint1_arr[2] = {buffer[3], buffer[4]};
   byte joint2_arr[2] = {buffer[5], buffer[6]};
+  byte joint3_arr[2] = {buffer[7], buffer[8]};
   
   short rotate = *((short*)rotate_arr);
   short joint1 = *((short*)joint1_arr);
   short joint2 = *((short*)joint2_arr);
+  short joint3 = *((short*)joint3_arr);
 
   dxl.setGoalPosition(DXL_ID[0], rotate, UNIT_RAW);
 
@@ -80,7 +85,34 @@ void move(byte buffer[7])
   {
     dxl.setGoalPosition(DXL_ID[i], joint2, UNIT_RAW);
   }
+
+  for (int i=5; i<7; i++)
+  {
+    dxl.setGoalPosition(DXL_ID[i], joint3, UNIT_RAW);
+  }
 }
+
+void initial_move()
+{
+  short rotate_position = dxl.getPresentPosition(DXL_ID[0], UNIT_RAW);
+  short joint1_position = dxl.getPresentPosition(DXL_ID[1], UNIT_RAW);
+  short joint2_position = dxl.getPresentPosition(DXL_ID[3], UNIT_RAW);
+  short joint3_position = dxl.getPresentPosition(DXL_ID[5], UNIT_RAW);
+
+  byte buffer[9];
+  buffer[0] = (byte) 2;
+  buffer[1] = (byte)(rotate_position >> 8);
+  buffer[2] = (byte)rotate_position;
+  buffer[3] = (byte)(joint1_position >> 8);
+  buffer[4] = (byte)joint1_position;
+  buffer[5] = (byte)(joint2_position >> 8);
+  buffer[6] = (byte)joint2_position;
+  buffer[7] = (byte)(joint3_position >> 8);
+  buffer[8] = (byte)joint3_position;
+
+  DEBUG_SERIAL.write(buffer, 9);
+}
+
 /** Please refer to each DYNAMIXEL eManual(http://emanual.robotis.com) for supported Operating Mode
  * Operating Mode
  *  1. OP_POSITION                (Position Mode in protocol2.0, Joint Mode in protocol1.0)
@@ -90,22 +122,3 @@ void move(byte buffer[7])
  *  5. OP_CURRENT                 (Current Mode in protocol2.0, Torque Mode(only MX64,MX106) in protocol1.0)
  *  6. OP_CURRENT_BASED_POSITION  (Current Based Postion Mode in protocol2.0 (except MX28, XL430))
  */
-
- /* if(dxl.setID(present_id, new_id) == true){
-      present_id = new_id;
-      DEBUG_SERIAL.print("ID has been successfully changed to ");
-      DEBUG_SERIAL.println(new_id);
-
-      new_id = DEFAULT_DXL_ID;
-      if(dxl.setID(present_id, new_id) == true){
-        present_id = new_id;
-        DEBUG_SERIAL.print("ID has been successfully changed back to Original ID ");
-        DEBUG_SERIAL.println(new_id);
-      }else{
-        DEBUG_SERIAL.print("Failed to change ID to ");
-        DEBUG_SERIAL.println(new_id);
-      }
-    }else{
-      DEBUG_SERIAL.print("Failed to change ID to ");
-      DEBUG_SERIAL.println(new_id);
-    } */
