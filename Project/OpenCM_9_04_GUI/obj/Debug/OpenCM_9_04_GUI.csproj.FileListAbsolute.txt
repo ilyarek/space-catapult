@@ -30,3 +30,14 @@ D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResour
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
 D:\works\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe.config
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.exe
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\bin\Debug\OpenCM_9_04_GUI.pdb
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.AssemblyReference.cache
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe.config
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Form1.resources
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.Properties.Resources.resources
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.GenerateResource.cache
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.csproj.CoreCompileInputs.cache
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.exe
+D:\works\ProjectGit\space-catapult\Project\OpenCM_9_04_GUI\obj\Debug\OpenCM_9_04_GUI.pdb
