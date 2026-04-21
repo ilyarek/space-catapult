@@ -32,11 +32,10 @@
               "RelativeDocumentMoniker": "Form1.Designer.cs",
               "ToolTip": "D:\\works\\ProjectGit\\space-catapult\\Project\\OpenCM_9_04_GUI\\Form1.Designer.cs",
               "RelativeToolTip": "Form1.Designer.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAIwE4CAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAswFUCAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-18T08:09:04.334Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -46,7 +45,7 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "D:\\works\\ProjectGit\\space-catapult\\Project\\OpenCM_9_04_GUI\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAIQAAAAAAAAAAAAiwCcCAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAL0EAAAAAAAAAAAzwBgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-18T08:09:04.349Z",
               "IsPinned": true,
@@ -62,8 +61,7 @@
               "RelativeToolTip": "Form1.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-02-18T08:09:04.906Z",
-              "IsPinned": true,
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "IsPinned": true
             }
           ]
         }

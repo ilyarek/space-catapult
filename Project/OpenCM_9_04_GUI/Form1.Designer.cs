@@ -60,10 +60,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.tabControl3 = new System.Windows.Forms.TabControl();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button5 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.orbitDetailsPanel = new System.Windows.Forms.Panel();
+            this.chkShowMarkers = new System.Windows.Forms.CheckBox();
+            this.lblOrbitDiff = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -77,10 +78,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.tabControl3.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            this.tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            this.orbitDetailsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // button2
@@ -461,9 +460,9 @@
             // 
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Location = new System.Drawing.Point(353, 211);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(331, 432);
+            this.groupBox1.Size = new System.Drawing.Size(338, 406);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Rotation";
@@ -472,7 +471,7 @@
             // 
             this.pictureBox1.Location = new System.Drawing.Point(6, 25);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(319, 398);
+            this.pictureBox1.Size = new System.Drawing.Size(326, 375);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -481,9 +480,9 @@
             // 
             this.groupBox2.Controls.Add(this.pictureBox2);
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.groupBox2.Location = new System.Drawing.Point(343, 3);
+            this.groupBox2.Location = new System.Drawing.Point(701, 211);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(421, 432);
+            this.groupBox2.Size = new System.Drawing.Size(410, 406);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Position";
@@ -492,64 +491,74 @@
             // 
             this.pictureBox2.Location = new System.Drawing.Point(8, 25);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(396, 398);
+            this.pictureBox2.Size = new System.Drawing.Size(396, 375);
             this.pictureBox2.TabIndex = 1;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox2_Paint);
             // 
-            // tabControl3
+            // button5
             // 
-            this.tabControl3.Controls.Add(this.tabPage5);
-            this.tabControl3.Controls.Add(this.tabPage6);
-            this.tabControl3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.tabControl3.Location = new System.Drawing.Point(353, 211);
-            this.tabControl3.Name = "tabControl3";
-            this.tabControl3.SelectedIndex = 0;
-            this.tabControl3.Size = new System.Drawing.Size(758, 459);
-            this.tabControl3.TabIndex = 7;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.BackColor = System.Drawing.SystemColors.Window;
-            this.tabPage5.Controls.Add(this.groupBox1);
-            this.tabPage5.Controls.Add(this.groupBox2);
-            this.tabPage5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.tabPage5.Location = new System.Drawing.Point(4, 29);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(750, 426);
-            this.tabPage5.TabIndex = 0;
-            this.tabPage5.Text = "Manipulator properties";
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.BackColor = System.Drawing.SystemColors.Window;
-            this.tabPage6.Controls.Add(this.pictureBox3);
-            this.tabPage6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.tabPage6.Location = new System.Drawing.Point(4, 29);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(750, 426);
-            this.tabPage6.TabIndex = 1;
-            this.tabPage6.Text = "Orbit properties";
+            this.button5.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.button5.Location = new System.Drawing.Point(234, 999);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(113, 35);
+            this.button5.TabIndex = 6;
+            this.button5.Text = "Update TLE";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // pictureBox3
             // 
             this.pictureBox3.Image = global::OpenCM_9_04_GUI.Properties.Resources.ModifiedBlueMarble;
-            this.pictureBox3.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox3.Location = new System.Drawing.Point(358, 623);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(747, 420);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 0;
             this.pictureBox3.TabStop = false;
             // 
+            // orbitDetailsPanel
+            // 
+            this.orbitDetailsPanel.Controls.Add(this.lblOrbitDiff);
+            this.orbitDetailsPanel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.orbitDetailsPanel.Location = new System.Drawing.Point(12, 677);
+            this.orbitDetailsPanel.Name = "orbitDetailsPanel";
+            this.orbitDetailsPanel.Size = new System.Drawing.Size(335, 269);
+            this.orbitDetailsPanel.TabIndex = 7;
+            // 
+            // chkShowMarkers
+            // 
+            this.chkShowMarkers.AutoSize = true;
+            this.chkShowMarkers.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.chkShowMarkers.Location = new System.Drawing.Point(241, 969);
+            this.chkShowMarkers.Name = "chkShowMarkers";
+            this.chkShowMarkers.Size = new System.Drawing.Size(106, 24);
+            this.chkShowMarkers.TabIndex = 8;
+            this.chkShowMarkers.Text = "checkBox1";
+            this.chkShowMarkers.UseVisualStyleBackColor = true;
+            // 
+            // lblOrbitDiff
+            // 
+            this.lblOrbitDiff.AutoSize = true;
+            this.lblOrbitDiff.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.lblOrbitDiff.Location = new System.Drawing.Point(28, 24);
+            this.lblOrbitDiff.Name = "lblOrbitDiff";
+            this.lblOrbitDiff.Size = new System.Drawing.Size(0, 24);
+            this.lblOrbitDiff.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(1118, 682);
-            this.Controls.Add(this.tabControl3);
+            this.ClientSize = new System.Drawing.Size(1123, 1046);
+            this.Controls.Add(this.chkShowMarkers);
+            this.Controls.Add(this.orbitDetailsPanel);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.pictureBox3);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.textBox1);
@@ -575,10 +584,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.tabControl3.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            this.orbitDetailsPanel.ResumeLayout(false);
+            this.orbitDetailsPanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -616,10 +624,11 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
-        private System.Windows.Forms.TabControl tabControl3;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Panel orbitDetailsPanel;
+        private System.Windows.Forms.CheckBox chkShowMarkers;
+        private System.Windows.Forms.Label lblOrbitDiff;
     }
 }
 
