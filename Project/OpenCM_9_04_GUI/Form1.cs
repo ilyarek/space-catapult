@@ -201,6 +201,11 @@ private struct Vector3
             updateTimer = new System.Timers.Timer(1000);
             updateTimer.Elapsed += UpdateTimer_Elapsed;
             updateTimer.AutoReset = true;
+
+            this.Resize += (s, e) => {
+                pictureBox1.Invalidate(); // Перерисовываем при изменении размера
+                pictureBox2.Invalidate();
+            };
         }
 
         private void LogError(string message)
@@ -421,23 +426,16 @@ private struct Vector3
 
         // ОРБИТАЛЬНАЯ МЕХАНИКА 
 
-        // Поворот вектора вокруг оси на угол (формула Родрига)
-        private Vector3 RotateAroundAxis(Vector3 v, Vector3 axis, double angle)
-        {
-            axis = axis.Normalize();
-            double cos = Math.Cos(angle), sin = Math.Sin(angle);
-            return v * cos + Vector3.Cross(axis, v) * sin + axis * Vector3.Dot(axis, v) * (1 - cos);
-        }
-
         // Вычисляет единичный вектор направления "конца" манипулятора в системе LVLH МКС
         // Платформа направлена ОТ Земли → используем -Z_LVLH (т.к. +Z_LVLH = к Земле/nadir)
         private Vector3 CalculateLaunchDirectionLVLH()
         {
+            
             double rotation = (double)numericUpDown1.Value;
             double j1 = (double)numericUpDown2.Value;
             double j2 = (double)numericUpDown3.Value;
             double j3 = (double)numericUpDown4.Value;
-
+            
             // 1. Суммарный угол наклона (тангаж) от вертикали
             // 150 = 0° (строго вверх, зенит)
             // < 150 → отрицательный угол → наклон НАЗАД (против вектора скорости)
@@ -473,6 +471,7 @@ private struct Vector3
             double finalZ = vz;
 
             return new Vector3(finalX, finalY, finalZ).Normalize();
+     
         }
 
         // Преобразует вектор из LVLH в ECI
@@ -672,7 +671,12 @@ private struct Vector3
                 {
                     UpdateISSPosition();
                     CalculateGroundTrack();
-
+                    if(serialPort1.IsOpen)
+                    {
+                        deployedOrbitTrack = CalculateDeployedOrbit();
+                        UpdateOrbitDetailsPanel();
+                    }
+                    
                     pictureBox3.Invoke((MethodInvoker)delegate {
                         pictureBox3.Invalidate();
                     });
@@ -749,22 +753,25 @@ private struct Vector3
                 double driftPerOrbit = Math.Abs(dT) * 465.1 * Math.Cos(issEl[2]) / 1000.0;
 
                 // 3. Формирование текста
-                string details = $"Launch parameters:\n";
-                details += $"   Pitch:  {pitchDeg:+0.0;-0.0;0.0}°\n";
-                details += $"   Azimuth: {azimuthDeg:+0.0;-0.0;0.0}° from course\n";
-                details += $"\n";
-                details += $"Orbit difference:\n";
-                details += $"   Δa (semiaxis):  {da:+0.0;-0.0;0.0} km\n";
-                details += $"   Δe (exccent.): {de:+0.00000;-0.00000;0.00000}\n";
-                details += $"   Δi (inc.):  {di:+0.000;-0.000;0.000}°\n";
-                details += $"   ΔT (period):   {dT:+0.00;-0.00;0.00} s/rot\n";
-                details += $"   Drift: ~{driftPerOrbit:F1} km/rot";
+                string detailsMan = $"Launch parameters:\n";
+                detailsMan += $"   Pitch:  {pitchDeg:+0.0;-0.0;0.0}°\n";
+                detailsMan += $"   Azimuth: {azimuthDeg:+0.0;-0.0;0.0}° from course\n";
+                string detailsOrbit = $"Orbit difference:\n";
+                detailsOrbit += $"   Δa (semiaxis):  {da:+0.0;-0.0;0.0} km\n";
+                detailsOrbit += $"   Δe (exccent.): {de:+0.00000;-0.00000;0.00000}\n";
+                detailsOrbit += $"   Δi (inc.):  {di:+0.000;-0.000;0.000}°\n";
+                detailsOrbit += $"   ΔT (period):   {dT:+0.00;-0.00;0.00} s/rot\n";
+                detailsOrbit += $"   Drift: ~{driftPerOrbit:F1} km/rot\n";
 
                 // 4. Безопасное обновление UI
                 if (lblOrbitDiff.InvokeRequired)
-                    lblOrbitDiff.Invoke((MethodInvoker)(() => lblOrbitDiff.Text = details));
+                    lblOrbitDiff.Invoke((MethodInvoker)(() => lblOrbitDiff.Text = detailsOrbit));
                 else
-                    lblOrbitDiff.Text = details;
+                    lblOrbitDiff.Text = detailsOrbit;
+                if (lblManipulatorPar.InvokeRequired)
+                    lblManipulatorPar.Invoke((MethodInvoker)(() => lblManipulatorPar.Text = detailsMan));
+                else
+                    lblManipulatorPar.Text = detailsMan;
             }
             catch (Exception ex)
             {
@@ -932,23 +939,26 @@ private struct Vector3
             {
                 using (Pen trackPen = new Pen(Color.FromArgb(200, 255, 165, 0), 2))
                 {
-                    List<PointF> segment = new List<PointF>();
-                    foreach (PointF point in currentTrack)
-                    {
-                        if (point == PointF.Empty && segment.Count > 1)
+                    try {
+                        List<PointF> segment = new List<PointF>();
+                        foreach (PointF point in currentTrack)
+                        {
+                            if (point == PointF.Empty && segment.Count > 1)
+                            {
+                                g.DrawLines(trackPen, segment.ToArray());
+                                segment.Clear();
+                            }
+                            else if (point != PointF.Empty)
+                            {
+                                segment.Add(point);
+                            }
+                        }
+                        if (segment.Count > 1)
                         {
                             g.DrawLines(trackPen, segment.ToArray());
-                            segment.Clear();
-                        }
-                        else if (point != PointF.Empty)
-                        {
-                            segment.Add(point);
                         }
                     }
-                    if (segment.Count > 1)
-                    {
-                        g.DrawLines(trackPen, segment.ToArray());
-                    }
+                    catch { }
                 }
             }
 
@@ -1134,10 +1144,6 @@ private struct Vector3
             servo_move((float)numericUpDown1.Value, (float)numericUpDown2.Value, (float)numericUpDown3.Value, (float)numericUpDown4.Value);
             LogInfo($"Move to: R={numericUpDown1.Value}° J1={numericUpDown2.Value}° J2={numericUpDown3.Value}° J3={numericUpDown4.Value}°");
 
-            // Пересчитываем орбиту
-            deployedOrbitTrack = CalculateDeployedOrbit();
-            UpdateOrbitDetailsPanel();
-
             // Отладочный расчёт вектора и параметров для проверки
             var issState = CalculateISSStateVector(DateTime.UtcNow);
             Vector3 dir = CalculateLaunchDirectionLVLH();
@@ -1263,27 +1269,53 @@ private struct Vector3
         {
             Graphics g = e.Graphics;
             g.Clear(Color.White);
-            float baseX = pictureBox1.Width / 2;
-            float baseY = pictureBox1.Height / 2;
-            float radius1 = 150;
+
+            // Получаем размеры pictureBox
+            float width = pictureBox1.Width;
+            float height = pictureBox1.Height;
+
+            // Определяем минимальный размер для корректного отображения
+            float minSize = Math.Min(width, height);
+
+            // Центр pictureBox (всегда 50%)
+            float baseX = width / 2;
+            float baseY = height / 2;
+
+            // Радиусы в процентах от минимального размера
+            float radius1 = minSize * 0.35f;      // Основной радиус (было 150)
+
             float rotation_angle = (float)numericUpDown1.Value;
-            float x1 = baseX + radius1 * (float)0.4 * (float)Math.Cos((rotation_angle - 60) * Math.PI / 180);
-            float y1 = baseY + radius1 * (float)0.4 * (float)Math.Sin((rotation_angle - 60) * Math.PI / 180);
-            float x2 = baseX + radius1 * (float)1.1 * (float)Math.Cos((rotation_angle + 120) * Math.PI / 180);
-            float y2 = baseY + radius1 * (float)1.1 * (float)Math.Sin((rotation_angle + 120) * Math.PI / 180);
+
+            // Координаты для линии ротации (в процентах)
+            float x1 = baseX + radius1 * 0.4f * (float)Math.Cos((rotation_angle - 60) * Math.PI / 180);
+            float y1 = baseY + radius1 * 0.4f * (float)Math.Sin((rotation_angle - 60) * Math.PI / 180);
+            float x2 = baseX + radius1 * 1.1f * (float)Math.Cos((rotation_angle + 120) * Math.PI / 180);
+            float y2 = baseY + radius1 * 1.1f * (float)Math.Sin((rotation_angle + 120) * Math.PI / 180);
+
+            // Рисуем линию ротации (толщина 5 как было)
             Pen RotationPen = new Pen(Brushes.Red, 5);
             g.DrawLine(RotationPen, x1, y1, x2, y2);
+
+            // Рисуем риски (от 120° до 360°) - как было
             for (float i = 120; i < 360; i += 30)
             {
-                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius1 * (float)1.05 * (float)Math.Cos(i * Math.PI / 180), baseY + radius1 * (float)1.05 * (float)Math.Sin(i * Math.PI / 180));
+                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius1 * 1.05f * (float)Math.Cos(i * Math.PI / 180), baseY + radius1 * 1.05f * (float)Math.Sin(i * Math.PI / 180));
             }
+
+            // Рисуем риски (от 0° до 90°) - как было
             for (float i = 0; i < 90; i += 30)
             {
-                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius1 * (float)1.05 * (float)Math.Cos(i * Math.PI / 180), baseY + radius1 * (float)1.05 * (float)Math.Sin(i * Math.PI / 180));
+                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius1 * 1.05f * (float)Math.Cos(i * Math.PI / 180), baseY + radius1 * 1.05f * (float)Math.Sin(i * Math.PI / 180));
             }
+
+            // Рисуем дуги
             float start_angle = 120;
             float sweep_angle = 300;
+
+            // Внешняя дуга
             g.DrawArc(Pens.Black, baseX - radius1, baseY - radius1, radius1 * 2, radius1 * 2, start_angle, sweep_angle);
+
+            // Внутренняя дуга
             g.DrawArc(Pens.Black, baseX - radius1 / 2, baseY - radius1 / 2, radius1, radius1, start_angle, sweep_angle);
         }
 
@@ -1291,51 +1323,90 @@ private struct Vector3
         {
             Graphics g = e.Graphics;
             g.Clear(Color.White);
-            float baseX = pictureBox2.Width / 2;
-            float baseY = pictureBox2.Height / 2;
-            float radius2 = 85;
-            float radius3 = 55;
-            float radius4 = 35;
-            g.DrawLine(Pens.Black, baseX - 85, baseY, baseX + 115, baseY);
-            g.DrawLine(Pens.Black, baseX, baseY, baseX, baseY - 130);
+
+            // Получаем размеры pictureBox
+            float width = pictureBox2.Width;
+            float height = pictureBox2.Height;
+            float minSize = Math.Min(width, height);
+
+            // Центр
+            float baseX = width / 2;
+            float baseY = height / 2;
+
+            // Радиусы в процентах от минимального размера
+            float radius2 = minSize * 0.25f;     // Основной радиус (было 85)
+            float radius3 = radius2 * 0.65f;     // Средний радиус (было 55)
+            float radius4 = radius3 * 0.65f;     // Маленький радиус (было 35)
+
+            // Оси координат
+            g.DrawLine(Pens.Black, baseX - radius2, baseY, baseX + radius2 * 1.35f, baseY);
+            g.DrawLine(Pens.Black, baseX, baseY, baseX, baseY - radius2 * 1.53f);
+
+            // Углы из NumericUpDown
             float joint1_angle = (float)numericUpDown2.Value;
             float joint2_angle = (float)numericUpDown3.Value;
             float joint3_angle = (float)numericUpDown4.Value;
+
+            // Вычисляем координаты сочленений
             float x1 = baseX + radius2 * (float)Math.Cos((joint1_angle + 120) * Math.PI / 180);
             float y1 = baseY + radius2 * (float)Math.Sin((joint1_angle + 120) * Math.PI / 180);
+
             float x2 = x1 + radius3 * (float)Math.Cos((joint1_angle + joint2_angle - 30) * Math.PI / 180);
             float y2 = y1 + radius3 * (float)Math.Sin((joint1_angle + joint2_angle - 30) * Math.PI / 180);
+
             float x3 = x2 + radius4 * (float)Math.Cos((joint1_angle + joint2_angle + joint3_angle - 180) * Math.PI / 180);
             float y3 = y2 + radius4 * (float)Math.Sin((joint1_angle + joint2_angle + joint3_angle - 180) * Math.PI / 180);
+
+            // Рисуем основные линии сочленений (толщина 3 как было)
             Pen Joint1Pen = new Pen(Brushes.Blue, 3);
             Pen Joint2Pen = new Pen(Brushes.Orange, 3);
             Pen Joint3Pen = new Pen(Brushes.Green, 3);
+
             g.DrawLine(Joint1Pen, baseX, baseY, x1, y1);
             g.DrawLine(Joint2Pen, x1, y1, x2, y2);
             g.DrawLine(Joint3Pen, x2, y2, x3, y3);
-            g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * (float)0.55 * (float)Math.Cos(120 * Math.PI / 180), baseY + radius2 * (float)0.55 * (float)Math.Sin(120 * Math.PI / 180));
-            g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * (float)0.55 * (float)Math.Cos(60 * Math.PI / 180), baseY + radius2 * (float)0.55 * (float)Math.Sin(60 * Math.PI / 180));
+
+            // Вспомогательные линии для первого сочленения
+            g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * 0.55f * (float)Math.Cos(120 * Math.PI / 180), baseY + radius2 * 0.55f * (float)Math.Sin(120 * Math.PI / 180));
+            g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * 0.55f * (float)Math.Cos(60 * Math.PI / 180), baseY + radius2 * 0.55f * (float)Math.Sin(60 * Math.PI / 180));
+
             for (float i = 45; i < 360; i += 90)
             {
-                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * (float)0.55 * (float)Math.Cos(i * Math.PI / 180), baseY + radius2 * (float)0.55 * (float)Math.Sin(i * Math.PI / 180));
+                g.DrawLine(Pens.Black, baseX, baseY, baseX + radius2 * 0.55f * (float)Math.Cos(i * Math.PI / 180), baseY + radius2 * 0.55f * (float)Math.Sin(i * Math.PI / 180));
             }
-            g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * (float)0.55 * (float)Math.Cos((joint1_angle - 30) * Math.PI / 180), y1 + radius3 * (float)0.55 * (float)Math.Sin((joint1_angle - 30) * Math.PI / 180));
-            g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * (float)0.55 * (float)Math.Cos((joint1_angle - 90) * Math.PI / 180), y1 + radius3 * (float)0.55 * (float)Math.Sin((joint1_angle - 90) * Math.PI / 180));
+
+            // Вспомогательные линии для второго сочленения
+            g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * 0.55f * (float)Math.Cos((joint1_angle - 30) * Math.PI / 180), y1 + radius3 * 0.55f * (float)Math.Sin((joint1_angle - 30) * Math.PI / 180));
+            g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * 0.55f * (float)Math.Cos((joint1_angle - 90) * Math.PI / 180), y1 + radius3 * 0.55f * (float)Math.Sin((joint1_angle - 90) * Math.PI / 180));
+
             for (float i = 45; i < 360; i += 90)
             {
-                g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * (float)0.55 * (float)Math.Cos((i + joint1_angle - 150) * Math.PI / 180), y1 + radius3 * (float)0.55 * (float)Math.Sin((i + joint1_angle - 150) * Math.PI / 180));
+                g.DrawLine(Pens.Black, x1, y1, x1 + radius3 * 0.55f * (float)Math.Cos((i + joint1_angle - 150) * Math.PI / 180), y1 + radius3 * 0.55f * (float)Math.Sin((i + joint1_angle - 150) * Math.PI / 180));
             }
-            g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * (float)0.55 * (float)Math.Cos((joint1_angle + joint2_angle + 180) * Math.PI / 180), y2 + radius4 * (float)0.55 * (float)Math.Sin((joint1_angle + joint2_angle + 180) * Math.PI / 180));
-            g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * (float)0.55 * (float)Math.Cos((joint1_angle + joint2_angle + 120) * Math.PI / 180), y2 + radius4 * (float)0.55 * (float)Math.Sin((joint1_angle + joint2_angle + 120) * Math.PI / 180));
+
+            // Вспомогательные линии для третьего сочленения
+            g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * 0.55f * (float)Math.Cos((joint1_angle + joint2_angle + 180) * Math.PI / 180), y2 + radius4 * 0.55f * (float)Math.Sin((joint1_angle + joint2_angle + 180) * Math.PI / 180));
+            g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * 0.55f * (float)Math.Cos((joint1_angle + joint2_angle + 120) * Math.PI / 180), y2 + radius4 * 0.55f * (float)Math.Sin((joint1_angle + joint2_angle + 120) * Math.PI / 180));
+
             for (float i = 45; i < 360; i += 90)
             {
-                g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * (float)0.55 * (float)Math.Cos((i + joint1_angle + joint2_angle + 60) * Math.PI / 180), y2 + radius4 * (float)0.55 * (float)Math.Sin((i + joint1_angle + joint2_angle + 60) * Math.PI / 180));
+                g.DrawLine(Pens.Black, x2, y2, x2 + radius4 * 0.55f * (float)Math.Cos((i + joint1_angle + joint2_angle + 60) * Math.PI / 180), y2 + radius4 * 0.55f * (float)Math.Sin((i + joint1_angle + joint2_angle + 60) * Math.PI / 180));
             }
+
+            // Рисуем дуги
             float start_angle = 120;
             float sweep_angle = 300;
-            g.DrawArc(Pens.Black, baseX - radius2 * (float)0.5, baseY - radius2 * (float)0.5, radius2 * 2 * (float)0.5, radius2 * 2 * (float)0.5, start_angle, sweep_angle);
-            g.DrawArc(Pens.Black, x1 - radius3 * (float)0.5, y1 - radius3 * (float)0.5, radius3 * 2 * (float)0.5, radius3 * 2 * (float)0.5, start_angle + joint1_angle - 150, sweep_angle);
-            g.DrawArc(Pens.Black, x2 - radius4 * (float)0.5, y2 - radius4 * (float)0.5, radius4 * 2 * (float)0.5, radius4 * 2 * (float)0.5, start_angle + joint1_angle + joint2_angle + 60, sweep_angle);
+
+            // Первая дуга
+            g.DrawArc(Pens.Black, baseX - radius2 * 0.5f, baseY - radius2 * 0.5f, radius2, radius2, start_angle, sweep_angle);
+
+            // Вторая дуга
+            g.DrawArc(Pens.Black, x1 - radius3 * 0.5f, y1 - radius3 * 0.5f, radius3, radius3, start_angle + joint1_angle - 150, sweep_angle);
+
+            // Третья дуга
+            g.DrawArc(Pens.Black, x2 - radius4 * 0.5f, y2 - radius4 * 0.5f, radius4, radius4, start_angle + joint1_angle + joint2_angle + 60, sweep_angle);
+
+            // Подписи
             g.DrawString("front", new Font("Microsoft Sans Serif", 10), Brushes.Black, baseX + 50, baseY + 5);
             g.DrawString("back", new Font("Microsoft Sans Serif", 10), Brushes.Black, baseX - 80, baseY + 5);
         }
@@ -1364,6 +1435,11 @@ private struct Vector3
                 LogError($"Critical error during TLE update: {ex.Message}");
                 MessageBox.Show($"Error during TLE update: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void chkShowMarkers_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
