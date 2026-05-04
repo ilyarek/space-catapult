@@ -46,8 +46,23 @@ void loop() {
       case ((byte) 2):
         initial_move();
         break;
+      case ((byte) 3):
+        setVelocity(buffer);
+        break;
     }
     DEBUG_SERIAL.flush();
+  }
+}
+
+void setVelocity(byte buffer[9])
+{
+  byte velocity_arr[2] = {buffer[1], buffer[2]};
+
+  short velocity = *((short*)velocity_arr);
+
+  for (int i=0; i<7; i++)
+  {
+    dxl.setGoalVelocity(DXL_ID[i], velocity); 
   }
 }
 

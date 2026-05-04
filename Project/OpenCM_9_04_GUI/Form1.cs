@@ -1093,9 +1093,10 @@ private struct Vector3
                 byte[] buffer = new byte[1];
                 buffer[0] = (byte)2;
                 serialPort1.Write(buffer, 0, buffer.Length);
+                setVelocity((float)50);
                 comboBox1.Enabled = false;
                 comboBox2.Enabled = false;
-                comboBox3.Enabled = true;
+                numericUpDown5.Enabled = true;
                 button1.Enabled = false;
                 button2.Enabled = true;
                 button3.Enabled = true;
@@ -1121,7 +1122,7 @@ private struct Vector3
                 button1.Enabled = true;
                 comboBox1.Enabled = true;
                 comboBox2.Enabled = true;
-                comboBox3.Enabled = false;
+                numericUpDown5.Enabled = false;
                 button2.Enabled = false;
                 button3.Enabled = false;
                 button4.Enabled = false;
@@ -1440,6 +1441,46 @@ private struct Vector3
         private void chkShowMarkers_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (!serialPort1.IsOpen)
+                {
+                    MessageBox.Show("Port is closed. Check connection to MC", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                setVelocity((float) numericUpDown5.Value);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Critical error during velocity setting: {ex.Message}");
+                MessageBox.Show($"Error during velocity setting: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+                
+        }
+
+        private void setVelocity(float velocity)
+        {
+            byte[] buffer = new byte[3];
+            buffer[0] = (byte)3;
+            byte[] velocity_arr = BitConverter.GetBytes((Int16)Math.Round((velocity / 0.111)));
+            buffer[1] = velocity_arr[0]; buffer[2] = velocity_arr[1];
+            try 
+            {
+                serialPort1.Write(buffer, 0, buffer.Length);
+                LogInfo($"Manipulator velocity is set to {velocity} rpm");
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show("Error occured while writing in port: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error occured: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
