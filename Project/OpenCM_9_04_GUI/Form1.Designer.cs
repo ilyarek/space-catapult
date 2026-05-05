@@ -49,16 +49,18 @@
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
+            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -72,8 +74,6 @@
             this.lblManipulatorPar = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.numericUpDown5 = new System.Windows.Forms.NumericUpDown();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
@@ -87,6 +87,7 @@
             this.tableLayoutPanel3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -96,7 +97,6 @@
             this.manipulatorDetails.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
             this.SuspendLayout();
             // 
             // serialPort1
@@ -460,48 +460,6 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(363, 158);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
-            // comboBox2
-            // 
-            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.tableLayoutPanel3.SetColumnSpan(this.comboBox2, 2);
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.Items.AddRange(new object[] {
-            "1200",
-            "2400",
-            "4800",
-            "9600",
-            "14400",
-            "19200",
-            "38400",
-            "56000",
-            "57600",
-            "115200"});
-            this.comboBox2.Location = new System.Drawing.Point(109, 65);
-            this.comboBox2.Margin = new System.Windows.Forms.Padding(13, 13, 13, 3);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(241, 28);
-            this.comboBox2.TabIndex = 1;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.tableLayoutPanel3.SetColumnSpan(this.comboBox1, 2);
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "COMtestingport"});
-            this.comboBox1.Location = new System.Drawing.Point(109, 13);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(13, 13, 13, 3);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(241, 28);
-            this.comboBox1.TabIndex = 0;
-            // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -561,6 +519,48 @@
             this.label2.Text = "Baud rate";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tableLayoutPanel3.SetColumnSpan(this.comboBox1, 2);
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "COMtestingport"});
+            this.comboBox1.Location = new System.Drawing.Point(109, 13);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(13, 13, 13, 3);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(241, 28);
+            this.comboBox1.TabIndex = 0;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBox2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.tableLayoutPanel3.SetColumnSpan(this.comboBox2, 2);
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.Items.AddRange(new object[] {
+            "1200",
+            "2400",
+            "4800",
+            "9600",
+            "14400",
+            "19200",
+            "38400",
+            "56000",
+            "57600",
+            "115200"});
+            this.comboBox2.Location = new System.Drawing.Point(109, 65);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(13, 13, 13, 3);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(241, 28);
+            this.comboBox2.TabIndex = 1;
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Window;
@@ -603,7 +603,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(131, 80);
+            this.label6.Size = new System.Drawing.Size(130, 80);
             this.label6.TabIndex = 4;
             this.label6.Text = "Moving speed";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -615,7 +615,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.BackColor = System.Drawing.SystemColors.ControlLight;
             this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(180, 103);
+            this.button4.Location = new System.Drawing.Point(179, 103);
             this.button4.Margin = new System.Windows.Forms.Padding(43, 23, 43, 23);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(87, 35);
@@ -623,6 +623,43 @@
             this.button4.Text = "Set";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // numericUpDown5
+            // 
+            this.numericUpDown5.Enabled = false;
+            this.numericUpDown5.Location = new System.Drawing.Point(166, 27);
+            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(30, 27, 30, 30);
+            this.numericUpDown5.Maximum = new decimal(new int[] {
+            113,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown5.Name = "numericUpDown5";
+            this.numericUpDown5.Size = new System.Drawing.Size(113, 26);
+            this.numericUpDown5.TabIndex = 6;
+            this.numericUpDown5.Value = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(312, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(51, 80);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "rpm";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // groupBox1
             // 
@@ -737,7 +774,7 @@
             this.chkShowMarkers.Name = "chkShowMarkers";
             this.chkShowMarkers.Size = new System.Drawing.Size(160, 130);
             this.chkShowMarkers.TabIndex = 8;
-            this.chkShowMarkers.Text = "Testing";
+            this.chkShowMarkers.Text = "Show future position";
             this.chkShowMarkers.UseVisualStyleBackColor = true;
             this.chkShowMarkers.CheckedChanged += new System.EventHandler(this.chkShowMarkers_CheckedChanged);
             // 
@@ -810,43 +847,6 @@
             this.tableLayoutPanel2.Size = new System.Drawing.Size(331, 185);
             this.tableLayoutPanel2.TabIndex = 9;
             // 
-            // numericUpDown5
-            // 
-            this.numericUpDown5.Enabled = false;
-            this.numericUpDown5.Location = new System.Drawing.Point(167, 27);
-            this.numericUpDown5.Margin = new System.Windows.Forms.Padding(30, 27, 30, 30);
-            this.numericUpDown5.Maximum = new decimal(new int[] {
-            113,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.numericUpDown5.Name = "numericUpDown5";
-            this.numericUpDown5.Size = new System.Drawing.Size(113, 26);
-            this.numericUpDown5.TabIndex = 6;
-            this.numericUpDown5.Value = new decimal(new int[] {
-            50,
-            0,
-            0,
-            0});
-            // 
-            // label8
-            // 
-            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(313, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(50, 80);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "rpm";
-            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -876,6 +876,7 @@
             this.tabPage4.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox2.ResumeLayout(false);
@@ -889,7 +890,6 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
             this.ResumeLayout(false);
 
         }

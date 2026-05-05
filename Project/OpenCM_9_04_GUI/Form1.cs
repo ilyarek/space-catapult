@@ -1089,11 +1089,6 @@ private struct Vector3
             {
                 serialPort1.PortName = comboBox1.Text;
                 serialPort1.BaudRate = Convert.ToInt32(comboBox2.Text);
-                serialPort1.Open();
-                byte[] buffer = new byte[1];
-                buffer[0] = (byte)2;
-                serialPort1.Write(buffer, 0, buffer.Length);
-                setVelocity((float)50);
                 comboBox1.Enabled = false;
                 comboBox2.Enabled = false;
                 numericUpDown5.Enabled = true;
@@ -1106,7 +1101,12 @@ private struct Vector3
                 numericUpDown2.Enabled = true;
                 numericUpDown3.Enabled = true;
                 numericUpDown4.Enabled = true;
+                serialPort1.Open();
                 LogInfo($"Port {serialPort1.PortName.ToString()} is open");
+                byte[] buffer = new byte[1];
+                buffer[0] = (byte)2;
+                serialPort1.Write(buffer, 0, buffer.Length);
+                setVelocity((float)50);
             }
             catch (Exception err)
             {
