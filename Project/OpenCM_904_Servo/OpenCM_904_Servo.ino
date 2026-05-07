@@ -7,6 +7,7 @@ const int DXL_DIR_PIN = 22; //OpenCM9.04 EXP Board's DIR PIN. (28 for the DXL po
 const byte DXL_ID[7] = {18, 5, 14, 11, 15, 2, 3}; // Написать здесь айди мотора, который написан сбоку серво
 // снизу вверх, слева направо 1 5 14 11 15 ? ?; 
 const float DXL_PROTOCOL_VERSION = 1.0; // Обязательно 1.0!
+short rotate_position = 0, joint1_position = 0, joint2_position = 0, joint3_position = 0;
 
 Dynamixel2Arduino dxl(DXL_SERIAL, DXL_DIR_PIN);
 
@@ -109,21 +110,48 @@ void move(byte buffer[9])
 
 void initial_move()
 {
-  short rotate_position = dxl.getPresentPosition(DXL_ID[0], UNIT_RAW);
-  short joint1_position = dxl.getPresentPosition(DXL_ID[1], UNIT_RAW);
-  short joint2_position = dxl.getPresentPosition(DXL_ID[3], UNIT_RAW);
-  short joint3_position = dxl.getPresentPosition(DXL_ID[5], UNIT_RAW);
+  rotate_position = dxl.getPresentPosition(DXL_ID[0], UNIT_RAW);
+
+  if(dxl.ping(DXL_ID[1])) 
+  {
+    joint1_position = dxl.getPresentPosition(DXL_ID[1], UNIT_RAW);
+  }
+  if(dxl.ping(DXL_ID[2])) 
+  {
+    joint1_position = dxl.getPresentPosition(DXL_ID[2], UNIT_RAW);
+  }
+
+  if(dxl.ping(DXL_ID[3])) 
+  {
+    joint2_position = dxl.getPresentPosition(DXL_ID[3], UNIT_RAW);
+  }
+  if(dxl.ping(DXL_ID[4])) 
+  {
+    joint2_position = dxl.getPresentPosition(DXL_ID[4], UNIT_RAW);
+  }
+
+  if(dxl.ping(DXL_ID[5])) 
+  {
+    joint3_position = dxl.getPresentPosition(DXL_ID[5], UNIT_RAW);
+  }
+  if(dxl.ping(DXL_ID[6])) 
+  {
+    joint3_position = dxl.getPresentPosition(DXL_ID[6], UNIT_RAW);
+  }
 
   byte buffer[9];
   buffer[0] = (byte) 2;
-  buffer[1] = (byte)(rotate_position >> 8);
-  buffer[2] = (byte)rotate_position;
-  buffer[3] = (byte)(joint1_position >> 8);
-  buffer[4] = (byte)joint1_position;
-  buffer[5] = (byte)(joint2_position >> 8);
-  buffer[6] = (byte)joint2_position;
-  buffer[7] = (byte)(joint3_position >> 8);
-  buffer[8] = (byte)joint3_position;
+  buffer[2] = (byte)(rotate_position >> 8);
+  buffer[1] = (byte)rotate_position;
+
+  buffer[4] = (byte)(joint1_position >> 8);
+  buffer[3] = (byte)joint1_position;
+
+  buffer[6] = (byte)(joint2_position >> 8);
+  buffer[5] = (byte)joint2_position;
+
+  buffer[8] = (byte)(joint3_position >> 8);
+  buffer[7] = (byte)joint3_position;
 
   DEBUG_SERIAL.write(buffer, 9);
 }

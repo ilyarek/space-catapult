@@ -155,7 +155,12 @@
             this.numericUpDown3.Location = new System.Drawing.Point(94, 86);
             this.numericUpDown3.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.numericUpDown3.Maximum = new decimal(new int[] {
-            300,
+            210,
+            0,
+            0,
+            0});
+            this.numericUpDown3.Minimum = new decimal(new int[] {
+            90,
             0,
             0,
             0});
@@ -198,7 +203,12 @@
             this.numericUpDown2.Location = new System.Drawing.Point(94, 47);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.numericUpDown2.Maximum = new decimal(new int[] {
-            300,
+            210,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Minimum = new decimal(new int[] {
+            90,
             0,
             0,
             0});
@@ -357,7 +367,12 @@
             this.numericUpDown4.Location = new System.Drawing.Point(94, 125);
             this.numericUpDown4.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
             this.numericUpDown4.Maximum = new decimal(new int[] {
-            300,
+            210,
+            0,
+            0,
+            0});
+            this.numericUpDown4.Minimum = new decimal(new int[] {
+            90,
             0,
             0,
             0});
@@ -528,8 +543,6 @@
             this.tableLayoutPanel3.SetColumnSpan(this.comboBox1, 2);
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "COMtestingport"});
             this.comboBox1.Location = new System.Drawing.Point(109, 13);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(13, 13, 13, 3);
             this.comboBox1.Name = "comboBox1";

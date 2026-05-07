@@ -1207,13 +1207,50 @@ private struct Vector3
             ushort joint1 = BitConverter.ToUInt16(buffer, 3);
             ushort joint2 = BitConverter.ToUInt16(buffer, 5);
             ushort joint3 = BitConverter.ToUInt16(buffer, 7);
+
+            decimal rotate_degree = (decimal)(Math.Round((rotate / 1023.0) * 300));
+
+            decimal joint1_degree = (decimal)(Math.Round((joint1 / 1023.0) * 300));
+            decimal joint2_degree = (decimal)(Math.Round((joint2 / 1023.0) * 300));
+            decimal joint3_degree = (decimal)(Math.Round((joint3 / 1023.0) * 300));
+
+            if(90 > joint1_degree)
+            {
+                joint1_degree = 90;
+            }
+            if (210 < joint1_degree)
+            {
+                joint1_degree = 210;
+            }
+
+            if (90 > joint2_degree)
+            {
+                joint2_degree = 90;
+            }
+            if (210 < joint2_degree)
+            {
+                joint2_degree = 210;
+            }
+
+            if (90 > joint3_degree)
+            {
+                joint3_degree = 90;
+            }
+            if (210 < joint3_degree)
+            {
+                joint3_degree = 210;
+            }
+
             this.Invoke((MethodInvoker)delegate
             {
-                numericUpDown1.Value = (decimal)((Math.Round((rotate / 1023.0) * 3000)) / 10);
-                numericUpDown2.Value = (decimal)((Math.Round((joint1 / 1023.0) * 3000)) / 10);
-                numericUpDown3.Value = (decimal)((Math.Round((joint2 / 1023.0) * 3000)) / 10);
-                numericUpDown4.Value = (decimal)((Math.Round((joint3 / 1023.0) * 3000)) / 10);
+                numericUpDown1.Value = rotate_degree;
+                numericUpDown2.Value = joint1_degree;
+                numericUpDown3.Value = joint2_degree;
+                numericUpDown4.Value = joint3_degree;
             });
+
+            servo_move((float)rotate_degree, (float)joint1_degree, (float)joint2_degree, (float)joint3_degree);
+
             pictureBox1.Invalidate();
             pictureBox2.Invalidate();
         }
