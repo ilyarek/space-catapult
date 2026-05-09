@@ -1106,7 +1106,6 @@ private struct Vector3
                 byte[] buffer = new byte[1];
                 buffer[0] = (byte)2;
                 serialPort1.Write(buffer, 0, buffer.Length);
-                setVelocity((float)50);
             }
             catch (Exception err)
             {
@@ -1142,7 +1141,7 @@ private struct Vector3
         private void button3_Click(object sender, EventArgs e)
         {
             // Отправляем команду на манипулятор
-            servo_move((float)numericUpDown1.Value, (float)numericUpDown2.Value, (float)numericUpDown3.Value, (float)numericUpDown4.Value);
+            servo_move((float)150.0-(float)numericUpDown1.Value, (float)numericUpDown2.Value, (float)numericUpDown3.Value, (float)numericUpDown4.Value);
             LogInfo($"Move to: R={numericUpDown1.Value}° J1={numericUpDown2.Value}° J2={numericUpDown3.Value}° J3={numericUpDown4.Value}°");
 
             // Отладочный расчёт вектора и параметров для проверки

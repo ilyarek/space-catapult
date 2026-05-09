@@ -4,8 +4,8 @@
 #define DEBUG_SERIAL Serial
 
 const int DXL_DIR_PIN = 22; //OpenCM9.04 EXP Board's DIR PIN. (28 for the DXL port on the OpenCM 9.04 board)
-const byte DXL_ID[7] = {18, 5, 14, 11, 15, 2, 3}; // Написать здесь айди мотора, который написан сбоку серво
-// снизу вверх, слева направо 1 5 14 11 15 ? ?; 
+const byte DXL_ID[7] = {18, 12, 17, 1, 9, 15, 2}; // Написать здесь айди мотора, который написан сбоку серво
+// снизу вверх, слева направо 18 12 17 1 9 15 2; 
 const float DXL_PROTOCOL_VERSION = 1.0; // Обязательно 1.0!
 short rotate_position = 0, joint1_position = 0, joint2_position = 0, joint3_position = 0;
 
@@ -27,6 +27,7 @@ void setup() {
     dxl.torqueOff(DXL_ID[i]);
     dxl.setOperatingMode(DXL_ID[i], OP_POSITION);
     dxl.torqueOn(DXL_ID[i]);
+    dxl.setGoalVelocity(DXL_ID[i], 2); 
   }
 }
 
